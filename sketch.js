@@ -77,16 +77,16 @@ function draw() {
 
     } else if (button2) {
         image(firewood, mouseX, mouseY, 100, 100);
-        if (mouseIsPressed) {
-            image(img1[currentFrame1], mouseX - 30, mouseY - 30, 100, 100);
-            image(img1[currentFrame1], mouseX - 100, mouseY, 150, 150);
-            image(img1[currentFrame1], mouseX + 50, mouseY, 150, 150);
-            image(img1[currentFrame1], mouseX + 30, mouseY + 70, 100, 100);
-            currentFrame1++;
-            if (currentFrame1 == 7) {
-                currentFrame1 = 0;
-            }
-        }
+//         if (mouseIsPressed) {
+//             image(img1[currentFrame1], mouseX - 30, mouseY - 30, 100, 100);
+//             image(img1[currentFrame1], mouseX - 100, mouseY, 150, 150);
+//             image(img1[currentFrame1], mouseX + 50, mouseY, 150, 150);
+//             image(img1[currentFrame1], mouseX + 30, mouseY + 70, 100, 100);
+//             currentFrame1++;
+//             if (currentFrame1 == 7) {
+//                 currentFrame1 = 0;
+//             }
+//         }
     } else if (button3) {
         image(water, mouseX, mouseY, 100, 100);
         if (mouseIsPressed) {
