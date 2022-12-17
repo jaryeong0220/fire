@@ -5,9 +5,11 @@ let currentFrame2 = 0;
 let firewood;
 let match;
 let water;
+let fext;
 let button1 = true;
 let button2;
 let button3;
+let button4;
 let selectedButton = 0;
 let obj;
 let objs = [];
@@ -23,6 +25,7 @@ function preload() {
     firewood = loadImage('firewood.PNG');
     match = loadImage('match.PNG');
     water = loadImage('water.PNG');
+    fext = loadImage('fext.PNG');
 }
 
 function setup() {
@@ -41,52 +44,54 @@ function draw() {
     image(match, 10, 10, 150, 150);
     image(firewood, 10, 160, 150, 150);
     image(water, 10, 320, 150, 150);
+    image(fext, 10, 500, 150, 150);
+    fill(255);
 
     imageMode(CENTER);
 
     if (mouseX < 150 && mouseY < 160) {
-        //match
+        //match=button1
         if (mouseIsPressed) {
             button1 = true;
             button2 = false;
             button3 = false;
+            button4 = false;
             selectedButton = 0;
         }
     } else if (mouseX < 150 && mouseY < 310) {
-        //firewood
+        //firewood=button2
         if (mouseIsPressed) {
             button1 = false;
             button2 = true;
             button3 = false;
+            button4 = false;
             selectedButton = 1;
         }
     } else if (mouseX < 150 && mouseY < 470) {
-        //water
+        //water=button3
         if (mouseIsPressed) {
             button1 = false;
             button2 = false;
             button3 = true;
+            button4 = false;
             selectedButton = 2;
         }
+    } else if (mouseX <  150 && mouseY < 650){  
+    //reset=button4
+    if(mouseIsPressed){
+        button1 = false;
+        button2 = false;
+        button3 = false;
+        button4 = true;
+        selectedButton = 3;
     }
-
+    }
     if (button1) {
         image(match, mouseX, mouseY, 100, 100);
-        // if (mouseIsPressed) {}
-        // obj.display();
 
     } else if (button2) {
         image(firewood, mouseX, mouseY, 100, 100);
-//         if (mouseIsPressed) {
-//             image(img1[currentFrame1], mouseX - 30, mouseY - 30, 100, 100);
-//             image(img1[currentFrame1], mouseX - 100, mouseY, 150, 150);
-//             image(img1[currentFrame1], mouseX + 50, mouseY, 150, 150);
-//             image(img1[currentFrame1], mouseX + 30, mouseY + 70, 100, 100);
-//             currentFrame1++;
-//             if (currentFrame1 == 7) {
-//                 currentFrame1 = 0;
-//             }
-//         }
+     
     } else if (button3) {
         image(water, mouseX, mouseY, 100, 100);
         if (mouseIsPressed) {
@@ -99,12 +104,18 @@ function draw() {
         for (let i = 0; i < objs.length; i++) {
             objs[i].remove();
         }
+    }else if(button4){
+        for (let i = 0; i < objs.length; i++) {
+            objs[i].reset();
+        }
     }
 
     for (let i = 0; i < objs.length; i++) {
         objs[i].display();
     }
+
 }
+
 
 function mouseClicked() {
     if (!button3) {
@@ -121,10 +132,10 @@ class campFire {
         this.y;
         this.scale = 1;
         this.activated = false;
-        this.button = 0;
-        // button1 -> 0,button2 -> 1,button3 -> 2
+        this.button = 0; // button1 -> 0,button2 -> 1,button3 -> 2
         this.removed = false;
     }
+    
     init(_x, _y) {
         if (mouseX > toolbarWidth) {
             this.x = _x;
@@ -145,7 +156,7 @@ class campFire {
                 image(img1[this.currentFrame], this.x - 100, this.y, 150, 150);
                 image(img1[this.currentFrame], this.x + 50, this.y, 150, 150);
                 image(img1[this.currentFrame], this.x + 30, this.y + 70, 100, 100);
-            } else {
+            } else if(this.button == 2){
                 image(water, this.x, this.y, 200, 200);
             }
             pop();
@@ -156,31 +167,27 @@ class campFire {
         }
     }
 
-    event() {
-
-    }
-
     remove() {
-        this._currentFrame = 0;
         if (mouseIsPressed) {
             if (dist(mouseX, mouseY, this.x, this.y) < 100 && this.activated) {
                 this.removed = true;
-                // image(img2[this._currentFrame], this.x, this.y, 200, 200);
+                image(img2[this._currentFrame], this.x, this.y, 200, 200);
                 this._currentFrame++;
                 if (this._currentFrame == 8) {
-                    this._currentFrame = 8;
+                    this._currentFrame = 0;
                 }
                 this.activated = false;
             }
-            // if (this.removed) {
-            //     image(img2[this._currentFrame], this.x, this.y, 200, 200);
-            //     this._currentFrame++;
-            //     if (this._currentFrame == 8) {
-            //         this._currentFrame = 0;
-            //     }
-            //     this.removed = false;
-
-            // }
+     
         }
     }
+
+    reset(){
+        this.activated = false;
+    }
 }
+
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+  }
